@@ -1,6 +1,8 @@
 /*
  * Flickr Justified Gallery - v1.0.1
- * http://github.com/kladd/flickr-justified-gallery/
+ * http://github.com/thedrjones/flickr-justified-gallery/
+ * 
+ * Original source: http://github.com/kladd/flickr-justified-gallery/ 
  *
  * flickrJustifiedGallery.js
  */
@@ -35,7 +37,7 @@
                 user_id: settings.flickrUserID,
                 per_page: settings.flickrPerPage,
                 format: "json",
-                extras: "path_alias"
+                extras: "path_alias, url_s"
             };
 
             var flickrRequest = $.getJSON(
@@ -45,12 +47,9 @@
             flickrRequest.done(function(response) {
                 for (var i = 0; i < response.photos.photo.length; i++) {
                     var photo = response.photos.photo[i];
-                    var url = "http://farm" + photo.farm +
-                        ".staticflickr.com/" + photo.server +
-                        "/" + photo.id + "_" + photo.secret + ".jpg";
                     var title = (photo.title === "") ? "Untitled" : photo.title;
                     var html = '<a href="https://www.flickr.com/photos/' + photo.pathalias + '/' + photo.id + '">' +
-                                '<img alt="' + title + '" src="' + url +'"/></a>';
+                                '<img alt="' + title + '" src="' + photo.url_s + '" height="'+ photo.height_s +'" width="' + photo.width_s + '"/></a>';
                     $gallery.append(html);
                 }
                 $gallery.justifiedGallery(settings.justifiedGallerySettings);
